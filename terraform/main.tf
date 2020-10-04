@@ -36,8 +36,8 @@ resource "aws_instance" "ci" {
   
   connection {
     type = "ssh"
-    user        = "ubuntu"
-    private_key = "${file(var.private_key_path)}"
+    user        = var.ssh_user
+    private_key = var.privat_key
     host = "${self.public_ip}"
   } 
   
@@ -65,8 +65,8 @@ resource "aws_instance" "loadbalancer_1" {
 
   connection {
     type = "ssh"
-    user        = "ubuntu"
-    private_key = "${file(var.private_key_path)}"
+    user        = var.ssh_user
+    private_key = var.privat_key
     host = "${self.public_ip}"
   } 
   
@@ -92,8 +92,8 @@ resource "aws_instance" "loadbalancer_2" {
 
   connection {
     type = "ssh"
-    user        = "ubuntu"
-    private_key = "${file(var.private_key_path)}"
+    user        = var.ssh_user
+    private_key = var.privat_key
     host = "${self.public_ip}"
   } 
   
@@ -104,11 +104,3 @@ resource "aws_instance" "loadbalancer_2" {
     ]
   }
 }
-    
-    
-    
-    
-    
-  #}
-#}
-############################################
