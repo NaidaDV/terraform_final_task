@@ -1,8 +1,10 @@
 provider "aws" {
-region = var.aws_region
+  region = var.aws_region
+  access_key = var.access_key
+  secret_key = var.secret_key
 }
 
 provider "github"{
-token="021b179645fce7aadc8fb152562e78da029b347a"
-owner="naidadv"
+  token="var.git_token"
+  owner="naidadv"
 }
