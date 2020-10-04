@@ -9,7 +9,7 @@ pipeline {
             }
         }
         
-        stage('Terraform apply') {
+        stage('Terraform plan') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_creds', accessKeyVariable: 'TF_VAR_access_key', secretKeyVariable: 'TF_VAR_secret_key']]){
                     withCredentials([string(credentialsId: 'git-token', variable: 'TF_VAR_git_token')]) {
