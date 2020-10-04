@@ -5,6 +5,6 @@ provider "aws" {
 }
 
 provider "github" {
-  token=var.git_token
-  owner="naidadv"
+  token = var.git_token
+  owner = "naidadv"
 }
