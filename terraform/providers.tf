@@ -4,7 +4,7 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
-provider "github"{
-  token="var.git_token"
+provider "github" {
+  token="ar.git_token
   owner="naidadv"
 }
