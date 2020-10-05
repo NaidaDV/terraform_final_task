@@ -29,7 +29,7 @@ pipeline {
                         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-instance', keyFileVariable: 'private_key', usernameVariable: 'TF_VAR_ssh_user')]) {
                             
                             sh 'cd terraform; cat $privat_key > ./privat_key.ppk'
-                            sh 'cd terraform; terraform destroy -auto-approve'
+                            sh 'cd terraform; terraform apply -auto-approve'
                             sh 'rm ./privat_key.ppk'
                         }
                     }
