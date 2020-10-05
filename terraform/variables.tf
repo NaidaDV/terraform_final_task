@@ -3,7 +3,7 @@ variable "access_key" {}
 variable "secret_key" {}
 variable "git_token" {}
 variable "ssh_user" {}
-variable "privat_key" {}
+#variable "privat_key" {}
 variable "auth" {}
 variable "aws_region" {}
 variable "aws_AZ1" {}
