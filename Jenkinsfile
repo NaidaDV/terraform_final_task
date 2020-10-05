@@ -28,7 +28,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'git-token', variable: 'TF_VAR_git_token')]) {
                         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-instance', keyFileVariable: 'privat_key', usernameVariable: 'TF_VAR_ssh_user')]) {
                             
-                            sh 'cd terraform; cat $privat_key > ./privat_key.ppk'
+                            sh 'cat $privat_key > ./terraform/privat_key.ppk'
                             sh 'cd terraform; terraform apply -auto-approve'
                             sh 'rm ./privat_key.ppk'
                         }
