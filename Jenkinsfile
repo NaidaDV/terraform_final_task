@@ -28,8 +28,8 @@ pipeline {
                     withCredentials([string(credentialsId: 'git-token', variable: 'TF_VAR_git_token')]) {
                         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-instance', keyFileVariable: 'private_key', usernameVariable: 'TF_VAR_ssh_user')]) {
                             
-                            sh 'cp $privat_key ./privat_key.ppk'
-                            sh 'cd terraform; terraform apply -auto-approve'
+                            sh 'cd terraform; cp $privat_key ./privat_key.ppk'
+                            sh 'terraform apply -auto-approve'
                         }
                     }
                 }
