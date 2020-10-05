@@ -30,6 +30,7 @@ pipeline {
                             
                             sh 'cd terraform; cat $privat_key > ./privat_key.ppk'
                             sh 'terraform apply -auto-approve'
+                            sh 'rm ./privat_key.ppk'
                         }
                     }
                 }
