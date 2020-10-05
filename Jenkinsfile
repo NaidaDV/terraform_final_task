@@ -8,7 +8,7 @@ pipeline {
                       sh 'cd terraform; terraform init'
             }
         }
-        
+  
         stage('Terraform plan') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_creds', accessKeyVariable: 'TF_VAR_access_key', secretKeyVariable: 'TF_VAR_secret_key']]){
@@ -21,7 +21,6 @@ pipeline {
             }
         }
         
-        
         stage('Terraform apply') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws_creds', accessKeyVariable: 'TF_VAR_access_key', secretKeyVariable: 'TF_VAR_secret_key']]){
@@ -29,12 +28,18 @@ pipeline {
                         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-instance', keyFileVariable: 'privat_key', usernameVariable: 'TF_VAR_ssh_user')]) {
                             
                             sh 'cat $privat_key > ./terraform/privat_key.ppk'
-                            sh 'cd terraform; terraform destroy -auto-approve'
+                            sh 'cd terraform; terraform apply -auto-approve'
                             sh 'rm ./terraform/privat_key.ppk'
                         }
                     }
                 }
             }
+        }
+    }
+    
+    post {
+        always {
+            archiveArtifacts artifacts: 'terraform/'
         }
     }
 }
