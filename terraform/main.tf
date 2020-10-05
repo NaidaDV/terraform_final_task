@@ -34,13 +34,6 @@ resource "aws_instance" "ci" {
     Name = "Ci"
   }
   
-  connection {
-    type = "ssh"
-    user        = var.ssh_user
-    private_key = var.privat_key_path
-    host = "${self.public_ip}"
-  } 
-  
   provisioner "remote-exec" {
     inline = [
       "mkdir /tmp/final_task",
@@ -48,6 +41,12 @@ resource "aws_instance" "ci" {
       "echo DEV_IP_JEN_DEV=${aws_instance.app_DEV.public_ip} > /tmp/final_task/environments.env",
       "echo DEV_IP_JEN_PROD=${aws_instance.app_PROD.public_ip} >> /tmp/final_task/environments.env",
     ]
+    connection {
+    type = "ssh"
+    user        = var.ssh_user
+    private_key = var.privat_key_path
+    host = "${self.public_ip}"
+    } 
   }
 }
 ############################################
@@ -62,19 +61,17 @@ resource "aws_instance" "loadbalancer_1" {
    Name = "Loadbalancer1"
   }
 
-
-  connection {
-    type = "ssh"
-    user        = var.ssh_user
-    private_key = var.privat_key_path
-    host = "${self.public_ip}"
-  } 
-  
   provisioner "remote-exec" {
     inline = [
       "touch /tmp/vars.yml",
       "echo application_ip: ${aws_instance.app_PROD.public_ip}:8080 > /tmp/vars.yml",
     ]
+    connection {
+    type = "ssh"
+    user        = var.ssh_user
+    private_key = var.privat_key_path
+    host = "${self.public_ip}"
+    } 
   }
 }
 ############################################
@@ -88,19 +85,17 @@ resource "aws_instance" "loadbalancer_2" {
   tags = {
     Name = "Loadbalancer2"
   }
-
-
-  connection {
-    type = "ssh"
-    user        = var.ssh_user
-    private_key = var.privat_key_path
-    host = "${self.public_ip}"
-  } 
   
   provisioner "remote-exec" {
     inline = [
       "touch /tmp/vars.yml",
       "echo application_ip: ${aws_instance.app_PROD.public_ip}:8080 > /tmp/vars.yml",
     ]
+    connection {
+    type = "ssh"
+    user        = var.ssh_user
+    private_key = var.privat_key_path
+    host = "${self.public_ip}"
+    } 
   }
 }
