@@ -7,6 +7,7 @@ resource "aws_subnet" "FT_PROD_subnet" {
   
   tags = {
     Name = "FT_PROD_subnet"
+    Environment = "production"
     
   }
 }
@@ -19,6 +20,7 @@ resource "aws_subnet" "FT_DEV_subnet" {
   
   tags = {
     Name = "FT_DEV_subnet"
+    Environment = "development"
   }
 }
 #############################################
@@ -30,6 +32,7 @@ resource "aws_subnet" "FT_CI_subnet" {
   
   tags = {
     Name = "FT_CI_subnet"
+    Environment = "CI"
   }
 }
 #############################################
