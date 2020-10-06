@@ -41,8 +41,8 @@ resource "aws_instance" "ci" {
     inline = [
       "mkdir /tmp/final_task",
       "touch /tmp/final_task/environments.env",
-      "echo DEV_IP_JEN_DEV=${aws_instance.app_DEV.private_ip} > /tmp/final_task/environments.env",
-      "echo DEV_IP_JEN_PROD=${aws_instance.app_PROD.private_ip} >> /tmp/final_task/environments.env",
+      "echo DEV_IP_JEN=${aws_instance.app_DEV.private_ip} > /tmp/final_task/environments.env",
+      "echo PROD_IP_JEN=${aws_instance.app_PROD.private_ip} >> /tmp/final_task/environments.env",
     ]
     connection {
     type = "ssh"
