@@ -4,7 +4,7 @@ resource "aws_instance" "app_DEV" {
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.FT_DEV_subnet.id}"
   key_name = var.auth
-  security_groups = [ "${aws_security_group.FT_security_group.id}" ]
+  security_groups = [ "${aws_security_group.FT_security_group_APP.id}" ]
   user_data = file("script_app.sh")
   tags = {
     Name = "App_DEV"
@@ -17,7 +17,7 @@ resource "aws_instance" "app_PROD" {
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.FT_PROD_subnet.id}"
   key_name = var.auth
-  security_groups = [ "${aws_security_group.FT_security_group.id}" ]
+  security_groups = [ "${aws_security_group.FT_security_group_APP.id}" ]
   user_data = file("script_app.sh")
   tags = {
     Name = "App_PROD"
@@ -30,7 +30,7 @@ resource "aws_instance" "ci" {
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.FT_CI_subnet.id}"
   key_name = var.auth
-  security_groups = [ "${aws_security_group.FT_security_group.id}" ]
+  security_groups = [ "${aws_security_group.FT_security_group_CI.id}" ]
   user_data = file("script_ci.sh")
   tags = {
     Name = "Ci"
@@ -41,8 +41,8 @@ resource "aws_instance" "ci" {
     inline = [
       "mkdir /tmp/final_task",
       "touch /tmp/final_task/environments.env",
-      "echo DEV_IP_JEN_DEV=${aws_instance.app_DEV.public_ip} > /tmp/final_task/environments.env",
-      "echo DEV_IP_JEN_PROD=${aws_instance.app_PROD.public_ip} >> /tmp/final_task/environments.env",
+      "echo DEV_IP_JEN_DEV=${aws_instance.app_DEV.private_ip} > /tmp/final_task/environments.env",
+      "echo DEV_IP_JEN_PROD=${aws_instance.app_PROD.private_ip} >> /tmp/final_task/environments.env",
     ]
     connection {
     type = "ssh"
@@ -58,7 +58,7 @@ resource "aws_instance" "loadbalancer_1" {
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.FT_PROD_subnet.id}"
   key_name = var.auth
-  security_groups = [ "${aws_security_group.FT_security_group.id}" ]
+  security_groups = [ "${aws_security_group.FT_security_group_LOAD.id}" ]
   user_data = file("script_loadbalancer.sh")
   tags = {
    Name = "Loadbalancer1"
@@ -68,7 +68,7 @@ resource "aws_instance" "loadbalancer_1" {
   provisioner "remote-exec" {
     inline = [
       "touch /tmp/vars.yml",
-      "echo application_ip: ${aws_instance.app_PROD.public_ip}:8080 > /tmp/vars.yml",
+      "echo application_ip: ${aws_instance.app_PROD.private_ip}:8080 > /tmp/vars.yml",
     ]
     connection {
     type = "ssh"
@@ -84,7 +84,7 @@ resource "aws_instance" "loadbalancer_2" {
   instance_type = "t2.micro"
   subnet_id = "${aws_subnet.FT_PROD_subnet.id}"
   key_name = var.auth
-  security_groups = [ "${aws_security_group.FT_security_group.id}" ]
+  security_groups = [ "${aws_security_group.FT_security_group_LOAD.id}" ]
   user_data = file("script_loadbalancer.sh")
   tags = {
     Name = "Loadbalancer2"
@@ -93,7 +93,7 @@ resource "aws_instance" "loadbalancer_2" {
   provisioner "remote-exec" {
     inline = [
       "touch /tmp/vars.yml",
-      "echo application_ip: ${aws_instance.app_PROD.public_ip}:8080 > /tmp/vars.yml",
+      "echo application_ip: ${aws_instance.app_PROD.private_ip}:8080 > /tmp/vars.yml",
     ]
     connection {
     type = "ssh"
