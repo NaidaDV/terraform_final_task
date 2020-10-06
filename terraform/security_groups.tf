@@ -31,7 +31,7 @@ resource "aws_security_group" "FT_security_group_CI" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "FT_security_group"
+    Name = "FT_security_group_CI"
   }
 }
 ###############################################
@@ -46,6 +46,13 @@ resource "aws_security_group" "FT_security_group_APP" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]              
   }
+  ingress {
+    description = "Allow traffic on port 8080"
+    from_port   = 8080
+    to_port     = 8080 
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]              
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -53,7 +60,7 @@ resource "aws_security_group" "FT_security_group_APP" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "FT_security_group"
+    Name = "FT_security_group_APP"
   }
 }
 ###############################################
@@ -82,7 +89,7 @@ resource "aws_security_group" "FT_security_group_LOAD" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "FT_security_group"
+    Name = "FT_security_group_LOAD"
   }
 }
 ###############################################
