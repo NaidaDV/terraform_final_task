@@ -1,7 +1,7 @@
 ###############################################
 resource "aws_elb" "test" {
   name               = "intermine-loadbalancer"
-  security_groups    = [aws_security_group.FT_security_group.id]
+  security_groups    = [aws_security_group.FT_security_group_LOAD.id]
   subnets            = [aws_subnet.FT_PROD_subnet.id]
 
   listener {
