@@ -2,36 +2,39 @@
 resource "aws_instance" "app_DEV" {
   ami = "${var.ami}"
   instance_type = "t2.micro"
-  subnet_id = "${aws_subnet.FT_subnet.id}"
+  subnet_id = "${aws_subnet.FT_DEV_subnet.id}"
   key_name = var.auth
   security_groups = [ "${aws_security_group.FT_security_group.id}" ]
   user_data = file("script_app.sh")
   tags = {
     Name = "App_DEV"
+    Environment = "development"
   }
 }
 #############################################
 resource "aws_instance" "app_PROD" {
   ami = "${var.ami}"
   instance_type = "t2.micro"
-  subnet_id = "${aws_subnet.FT_subnet.id}"
+  subnet_id = "${aws_subnet.FT_PROD_subnet.id}"
   key_name = var.auth
   security_groups = [ "${aws_security_group.FT_security_group.id}" ]
   user_data = file("script_app.sh")
   tags = {
     Name = "App_PROD"
+    Environment = "production"
   }
 }
 ############################################
 resource "aws_instance" "ci" {
   ami = "${var.ami}"
   instance_type = "t2.micro"
-  subnet_id = "${aws_subnet.FT_subnet.id}"
+  subnet_id = "${aws_subnet.FT_CI_subnet.id}"
   key_name = var.auth
   security_groups = [ "${aws_security_group.FT_security_group.id}" ]
   user_data = file("script_ci.sh")
   tags = {
     Name = "Ci"
+    Environment = "CI"
   }
   
   provisioner "remote-exec" {
@@ -53,12 +56,13 @@ resource "aws_instance" "ci" {
 resource "aws_instance" "loadbalancer_1" {
   ami = "${var.ami}"
   instance_type = "t2.micro"
-  subnet_id = "${aws_subnet.FT_subnet.id}"
+  subnet_id = "${aws_subnet.FT_PROD_subnet.id}"
   key_name = var.auth
   security_groups = [ "${aws_security_group.FT_security_group.id}" ]
   user_data = file("script_loadbalancer.sh")
   tags = {
    Name = "Loadbalancer1"
+   Environment = "production"
   }
 
   provisioner "remote-exec" {
@@ -78,14 +82,14 @@ resource "aws_instance" "loadbalancer_1" {
 resource "aws_instance" "loadbalancer_2" {
   ami = "${var.ami}"
   instance_type = "t2.micro"
-  subnet_id = "${aws_subnet.FT_subnet.id}"
+  subnet_id = "${aws_subnet.FT_PROD_subnet.id}"
   key_name = var.auth
   security_groups = [ "${aws_security_group.FT_security_group.id}" ]
   user_data = file("script_loadbalancer.sh")
   tags = {
     Name = "Loadbalancer2"
+    Environment = "production"
   }
-  
   provisioner "remote-exec" {
     inline = [
       "touch /tmp/vars.yml",
